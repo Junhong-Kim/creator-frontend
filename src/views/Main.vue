@@ -84,7 +84,7 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-tile @click="login">
+          <v-list-tile @click="showLoginDialog = true">
             <v-list-tile-title>회원가입 | 로그인</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -103,6 +103,37 @@
         </v-layout>
       </v-container>
     </v-content>
+    <!-- login dialog -->
+    <v-dialog v-model="showLoginDialog" width="400px">
+      <v-card>
+        <v-card-title class="pb-0">
+          <v-layout wrap column class="text-xs-center">
+            <span class="headline font-weight-bold">Application</span>
+          </v-layout>
+        </v-card-title>
+        <v-card-text class="pt-0">
+          <v-container>
+            <v-layout wrap column class="text-xs-center">
+              <div>Lorem Ipsum is simply dummy text</div>
+              <div>of the printing and typesetting industry.</div>
+              <v-img
+                :src="require('@/assets/google.png')"
+                @click="login"
+                contain
+                height="50"
+                class="ma-4"
+                style="cursor: pointer;"
+              ></v-img>
+              <small>
+                <span>회원가입시&nbsp;</span>
+                <span class="primary--text" style="cursor: pointer;"><u>서비스 이용약관</u></span>과&nbsp;
+                <span class="primary--text" style="cursor: pointer;"><u>개인정보 취급방침</u></span>을 읽고 동의했습니다.
+              </small>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -113,8 +144,10 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class Main extends Vue {
   drawer: boolean = false;
   isLogin: boolean = false;
+  showLoginDialog: boolean = false;
 
   login() {
+    this.showLoginDialog = false;
     this.isLogin = true;
   }
 
