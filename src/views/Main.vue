@@ -139,6 +139,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import axios from 'axios';
+import API from '@/service/api';
 
 @Component
 export default class Main extends Vue {
@@ -149,6 +151,11 @@ export default class Main extends Vue {
   login() {
     this.showLoginDialog = false;
     this.isLogin = true;
+
+    axios.get(API.LOGIN_STATUS)
+      .then((res) => {
+        alert(res.data);
+      });
   }
 
   logout() {
