@@ -116,14 +116,15 @@
             <v-layout wrap column class="text-xs-center">
               <div>Lorem Ipsum is simply dummy text</div>
               <div>of the printing and typesetting industry.</div>
-              <v-img
-                :src="require('@/assets/google.png')"
-                @click="login"
-                contain
-                height="50"
-                class="ma-4"
-                style="cursor: pointer;"
-              ></v-img>
+              <a href="/api/auth/google/">
+                <v-img
+                  :src="require('@/assets/google.png')"
+                  contain
+                  height="50"
+                  class="ma-4"
+                  style="cursor: pointer;"
+                ></v-img>
+              </a>
               <small>
                 <span>회원가입시&nbsp;</span>
                 <span class="primary--text" style="cursor: pointer;"><u>서비스 이용약관</u></span>과&nbsp;
