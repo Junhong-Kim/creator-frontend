@@ -142,12 +142,19 @@
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import API from '@/service/api';
+import { setCookie } from '@/util';
 
 @Component
 export default class Main extends Vue {
   drawer: boolean = false;
   isLogin: boolean = false;
   showLoginDialog: boolean = false;
+
+  created() {
+    const token: string = this.$route.query.token as string;
+    if (token) setCookie('x-access-token', token);
+    this.$router.push({ name: 'home' });
+  }
 
   login() {
     this.showLoginDialog = false;
