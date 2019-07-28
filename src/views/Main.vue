@@ -49,9 +49,9 @@
         transition="slide-y-transition"
       >
         <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>face</v-icon>
-          </v-btn>
+          <v-avatar v-on="on" size="36">
+            <img :src="userPicture">
+          </v-avatar>
         </template>
         <v-list>
           <v-list-tile>
@@ -140,7 +140,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from 'axios';
+import axios from '@/service/axios';
 import API from '@/service/api';
 import { setCookie } from '@/util';
 
@@ -149,20 +149,23 @@ export default class Main extends Vue {
   drawer: boolean = false;
   isLogin: boolean = false;
   showLoginDialog: boolean = false;
+  userPicture: string = '';
 
   created() {
     const token: string = this.$route.query.token as string;
-    if (token) setCookie('x-access-token', token);
+    if (token) {
+      setCookie('x-access-token', token);
+      this.getUserMe();
+      this.isLogin = true;
+    }
     this.$router.push({ name: 'home' });
   }
 
-  login() {
-    this.showLoginDialog = false;
-    this.isLogin = true;
-
-    axios.get(API.LOGIN_STATUS)
+  getUserMe() {
+    axios.instance.get(API.USER_ME)
       .then((res) => {
-        alert(res.data);
+        const data = res.data.data;
+        this.userPicture = data.picture;
       });
   }
 
