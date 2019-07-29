@@ -142,7 +142,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import axios from '@/service/axios';
 import API from '@/service/api';
-import { setCookie } from '@/util';
+import { deleteCookie, setCookie } from '@/util';
 
 @Component
 export default class Main extends Vue {
@@ -170,6 +170,7 @@ export default class Main extends Vue {
   }
 
   logout() {
+    deleteCookie('x-access-token');
     this.isLogin = false;
   }
 }
