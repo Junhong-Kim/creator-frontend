@@ -50,7 +50,7 @@
       >
         <template v-slot:activator="{ on }">
           <v-avatar v-on="on" size="36">
-            <img :src="userPicture">
+            <v-img :src="userPicture" style="cursor: pointer;"></v-img>
           </v-avatar>
         </template>
         <v-list>
@@ -79,9 +79,11 @@
         transition="slide-y-transition"
       >
         <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>person</v-icon>
-          </v-btn>
+          <v-avatar v-on="on">
+            <v-btn icon>
+              <v-icon>person</v-icon>
+            </v-btn>
+          </v-avatar>
         </template>
         <v-list>
           <v-list-tile @click="showLoginDialog = true">
@@ -140,9 +142,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from '@/service/axios';
+import axios from 'axios';
 import API from '@/service/api';
-import { deleteCookie, setCookie } from '@/util';
+import { deleteCookie, setCookie, getCookie } from '@/util';
 
 @Component
 export default class Main extends Vue {
@@ -156,17 +158,20 @@ export default class Main extends Vue {
     if (token) {
       setCookie('x-access-token', token);
       this.getUserMe();
-      this.isLogin = true;
     }
     this.$router.push({ name: 'home' });
   }
 
   getUserMe() {
-    axios.instance.get(API.USER_ME)
-      .then((res) => {
-        const data = res.data.data;
-        this.userPicture = data.picture;
-      });
+    axios.get(API.USER_ME, {
+      headers: {
+        'x-access-token': getCookie('x-access-token'),
+      },
+    }).then((res) => {
+      const data = res.data.data;
+      this.userPicture = data.picture;
+      this.isLogin = true;
+    });
   }
 
   logout() {
