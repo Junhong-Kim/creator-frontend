@@ -44,13 +44,16 @@
       <v-spacer></v-spacer>
       <!-- after login -->
       <v-menu
-        v-if="isLogin"
+        v-if="isLogin && $store.getters.user"
         offset-y
         transition="slide-y-transition"
       >
         <template v-slot:activator="{ on }">
           <v-avatar v-on="on" size="36">
-            <v-img :src="userPicture" style="cursor: pointer;"></v-img>
+            <v-img
+              :src="$store.getters.user.picture"
+              style="cursor: pointer;"
+            ></v-img>
           </v-avatar>
         </template>
         <v-list>
@@ -151,27 +154,17 @@ export default class Main extends Vue {
   drawer: boolean = false;
   isLogin: boolean = false;
   showLoginDialog: boolean = false;
-  userPicture: string = '';
 
   created() {
     const token: string = this.$route.query.token as string;
     if (token) {
       setCookie('x-access-token', token);
-      this.getUserMe();
+      this.$store.dispatch('getUser')
+        .then(() => {
+          this.isLogin = true;
+        });
     }
     this.$router.push({ name: 'home' });
-  }
-
-  getUserMe() {
-    axios.get(API.USER_ME, {
-      headers: {
-        'x-access-token': getCookie('x-access-token'),
-      },
-    }).then((res) => {
-      const data = res.data.data;
-      this.userPicture = data.picture;
-      this.isLogin = true;
-    });
   }
 
   logout() {
