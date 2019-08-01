@@ -169,6 +169,7 @@ export default class Main extends Vue {
 
   logout() {
     deleteCookie('x-access-token');
+    this.$store.commit('setUser', null);
     this.isLogin = false;
   }
 }
