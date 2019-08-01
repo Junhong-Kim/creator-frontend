@@ -1,17 +1,15 @@
-import Vue from 'vue';
-import Vuex, { StoreOptions, ActionContext } from 'vuex';
+import { ActionContext, Module } from 'vuex';
+import { RootState } from '@/store';
 import { IUser } from '@/interfaces';
 import axios from 'axios';
 import API from '@/service/api';
-import { getCookie } from './util';
-
-Vue.use(Vuex);
+import { getCookie } from '@/util';
 
 interface State {
   user: IUser | null;
 }
 
-const store: StoreOptions<State> = {
+const module: Module<State, RootState> = {
   state: {
     user: null,
   },
@@ -21,7 +19,7 @@ const store: StoreOptions<State> = {
     },
   },
   actions: {
-    getUser({state, commit}: ActionContext<State, State>) {
+    getUser({commit}: ActionContext<State, RootState>) {
       axios.get(API.USER_ME, {
         headers: {
           'x-access-token': getCookie('x-access-token'),
@@ -37,4 +35,4 @@ const store: StoreOptions<State> = {
   },
 };
 
-export default new Vuex.Store(store);
+export default module;
