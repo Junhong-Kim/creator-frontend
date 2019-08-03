@@ -7,7 +7,7 @@
     >
       <v-list>
         <v-subheader>크리에이터</v-subheader>
-        <v-list-tile @click="$router.push({name: 'home'})">
+        <v-list-tile @click="$router.push({name: 'creatorRanking'})">
           <v-list-tile-action>
             <v-icon>trending_up</v-icon>
           </v-list-tile-action>
@@ -16,7 +16,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-subheader>에디터</v-subheader>
-        <v-list-tile @click="$router.push({name: 'about'})">
+        <v-list-tile @click="$router.push({name: 'editorRecruit'})">
           <v-list-tile-action>
             <v-icon>assignment_ind</v-icon>
           </v-list-tile-action>
@@ -25,7 +25,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-subheader>커뮤니티</v-subheader>
-        <v-list-tile>
+        <v-list-tile @click="$router.push({name: 'communityBoard'})">
           <v-list-tile-action>
             <v-icon>list</v-icon>
           </v-list-tile-action>
@@ -164,7 +164,7 @@ export default class Main extends Vue {
           this.isLogin = true;
         });
     }
-    this.$router.push({ name: 'home' });
+    this.$router.push({ name: 'creatorRanking' });
   }
 
   logout() {

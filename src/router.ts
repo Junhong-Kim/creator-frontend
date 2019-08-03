@@ -14,14 +14,19 @@ export default new Router({
       component: Main,
       children: [
         {
-          path: '/home',
-          name: 'home',
-          component: () => import('./views/Home.vue'),
+          path: '/creator/ranking',
+          name: 'creatorRanking',
+          component: () => import('./views/CreatorRanking.vue'),
         },
         {
-          path: '/about',
-          name: 'about',
-          component: () => import('./views/About.vue'),
+          path: '/editor/recruit',
+          name: 'editorRecruit',
+          component: () => import('./views/EditorRecruit.vue'),
+        },
+        {
+          path: '/community/board',
+          name: 'communityBoard',
+          component: () => import('./views/CommunityBoard.vue'),
         },
       ],
     },
