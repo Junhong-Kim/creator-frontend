@@ -156,9 +156,12 @@ export default class Main extends Vue {
   showLoginDialog: boolean = false;
 
   created() {
-    const token: string = this.$route.query.token as string;
+    const token = this.$route.query.token === undefined
+                  ? getCookie('x-access-token')
+                  : this.$route.query.token;
+
     if (token) {
-      setCookie('x-access-token', token);
+      setCookie('x-access-token', token as string);
       this.$store.dispatch('getUser')
         .then(() => {
           this.isLogin = true;
