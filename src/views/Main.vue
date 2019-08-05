@@ -42,6 +42,19 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Application</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-layout row align-center style="max-width: 500px;">
+        <v-text-field
+          v-model="keyword"
+          light
+          solo
+          placeholder="검색"
+          single-line
+          append-icon="search"
+          hide-details
+          @keyup.enter="search"
+        ></v-text-field>
+      </v-layout>
+      <v-spacer></v-spacer>
       <!-- after login -->
       <v-menu
         v-if="isLogin && $store.getters.user"
@@ -154,6 +167,7 @@ export default class Main extends Vue {
   drawer: boolean = false;
   isLogin: boolean = false;
   showLoginDialog: boolean = false;
+  keyword: string = '';
 
   created() {
     const token = this.$route.query.token === undefined
@@ -174,6 +188,10 @@ export default class Main extends Vue {
     deleteCookie('x-access-token');
     this.$store.commit('setUser', null);
     this.isLogin = false;
+  }
+
+  search() {
+    alert(this.keyword);
   }
 }
 </script>
