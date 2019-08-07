@@ -7,3 +7,10 @@ export interface IUser {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IChannelThumbnail {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+}

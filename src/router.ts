@@ -14,6 +14,11 @@ export default new Router({
       component: Main,
       children: [
         {
+          path: '/channel/search',
+          name: 'channelSearch',
+          component: () => import('./views/ChannelSearch.vue'),
+        },
+        {
           path: '/creator/ranking',
           name: 'creatorRanking',
           component: () => import('./views/CreatorRanking.vue'),

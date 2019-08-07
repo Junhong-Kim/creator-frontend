@@ -158,8 +158,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from 'axios';
-import API from '@/service/api';
 import { deleteCookie, setCookie, getCookie } from '@/util';
 
 @Component
@@ -191,7 +189,12 @@ export default class Main extends Vue {
   }
 
   search() {
-    alert(this.keyword);
+    if (this.keyword) {
+      this.$router.push({
+        name: 'channelSearch',
+        query: { keyword: this.keyword },
+      });
+    }
   }
 }
 </script>
