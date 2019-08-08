@@ -1,5 +1,5 @@
 <template>
-  <v-layout column>
+  <v-layout v-if="channels" column>
     <v-flex text-xs-left ml-2 mr-2>
       <span class="body-1 grey--text font-weight-bold">YouTube 채널</span>
     </v-flex>
@@ -34,11 +34,15 @@ export default class ChannelSearch extends Vue {
   }
 
   searchChannels(keyword: string) {
+    this.$Progress.start();
     axios.get(API.YOUTUBE_CHANNELS, {
       params: { keyword },
     }).then((res) => {
       const data = res.data.data;
       this.channels = data;
+      this.$Progress.finish();
+    }).catch(() => {
+      this.$Progress.fail();
     });
   }
 }
