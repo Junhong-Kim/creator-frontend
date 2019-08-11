@@ -18,18 +18,19 @@
           <span class="subheading">{{ channel.description }}</span>
         </v-layout>
         <v-btn
-          v-if="true"
+          v-if="isRegist"
           depressed
-          color="primary"
+          disabled
         >
-          랭킹등록
+          등록됨
         </v-btn>
         <v-btn
           v-else
           depressed
-          disabled
+          color="primary"
+          @click="registChannel(channel.id)"
         >
-          1위
+          등록
         </v-btn>
       </v-container>
     </v-layout>
@@ -39,9 +40,23 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { IChannelThumbnail } from '@/interfaces';
+import axios from 'axios';
+import API from '@/service/api';
 
 @Component
 export default class CreatorChannelThumbnail extends Vue {
+  isRegist: boolean = false;
+
   @Prop(Object) readonly channel!: IChannelThumbnail;
+
+  registChannel(channelId: string) {
+    axios.post(API.YOUTUBE_CHANNELS, {
+      channelId,
+    }).then(() => {
+      this.isRegist = true;
+    }).catch(() => {
+      alert('등록된 채널입니다.');
+    });
+  }
 }
 </script>
