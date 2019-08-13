@@ -1,17 +1,23 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="items"
-    class="elevation-1"
-  >
-    <template v-slot:items="props">
-      <td class="text-xs-center">{{ props.item.id }}</td>
-      <td class="text-xs-left">{{ props.item.title }}</td>
-      <td class="text-xs-center">{{ props.item.createdBy }}</td>
-      <td class="text-xs-center">{{ props.item.createdAt }}</td>
-      <td class="text-xs-center">{{ props.item.like }}</td>
-    </template>
-  </v-data-table>
+  <div class="elevation-1">
+    <v-toolbar flat color="white">
+      <v-toolbar-title>자유게시판</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn dark small depressed color="primary">글쓰기</v-btn>
+    </v-toolbar>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+    >
+      <template v-slot:items="props">
+        <td class="text-xs-center">{{ props.item.id }}</td>
+        <td class="text-xs-left">{{ props.item.title }}</td>
+        <td class="text-xs-center">{{ props.item.createdBy }}</td>
+        <td class="text-xs-center">{{ props.item.createdAt }}</td>
+        <td class="text-xs-center">{{ props.item.like }}</td>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script lang="ts">
