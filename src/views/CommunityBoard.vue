@@ -10,11 +10,13 @@
       :items="items"
     >
       <template v-slot:items="props">
-        <td class="text-xs-center">{{ props.item.id }}</td>
-        <td class="text-xs-left">{{ props.item.title }}</td>
-        <td class="text-xs-center">{{ props.item.createdBy }}</td>
-        <td class="text-xs-center">{{ props.item.createdAt }}</td>
-        <td class="text-xs-center">{{ props.item.like }}</td>
+        <tr @click="$router.push({ name: 'communityPost', params: { postId: props.item.id }})">
+          <td class="text-xs-center">{{ props.item.id }}</td>
+          <td class="text-xs-left">{{ props.item.title }}</td>
+          <td class="text-xs-center">{{ props.item.createdBy }}</td>
+          <td class="text-xs-center">{{ props.item.createdAt }}</td>
+          <td class="text-xs-center">{{ props.item.like }}</td>
+        </tr>
       </template>
     </v-data-table>
   </div>

@@ -33,6 +33,11 @@ export default new Router({
           name: 'communityBoard',
           component: () => import('./views/CommunityBoard.vue'),
         },
+        {
+          path: '/community/posts/:postId',
+          name: 'communityPost',
+          component: () => import('./views/CommunityPost.vue'),
+        },
       ],
     },
   ],
