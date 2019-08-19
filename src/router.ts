@@ -38,6 +38,11 @@ export default new Router({
           name: 'communityPost',
           component: () => import('./views/CommunityPost.vue'),
         },
+        {
+          path: '/new',
+          name: 'textEditor',
+          component: () => import('./views/TextEditor.vue'),
+        },
       ],
     },
   ],

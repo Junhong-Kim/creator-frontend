@@ -3,7 +3,7 @@
     <v-toolbar flat color="white">
       <v-toolbar-title>자유게시판</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn dark small depressed color="primary">글쓰기</v-btn>
+      <v-btn dark small depressed color="primary" @click="$router.push({ name: 'textEditor' })">글쓰기</v-btn>
     </v-toolbar>
     <v-data-table
       :headers="headers"
