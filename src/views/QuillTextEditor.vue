@@ -12,6 +12,7 @@
           solo
           hide-details
           placeholder="Title"
+          color="black"
           style="border: 1px solid #e0e0e0;"
           class="mb-3"
         >
@@ -24,7 +25,7 @@
         <v-layout row mt-3>
           <v-flex>
             <v-btn small round color="primary">등록</v-btn>
-            <v-btn small round color="grey lighten-5">취소</v-btn>
+            <v-btn small round color="grey lighten-5" @click="$router.go(-1)">취소</v-btn>
           </v-flex>
         </v-layout>
       </v-layout>
