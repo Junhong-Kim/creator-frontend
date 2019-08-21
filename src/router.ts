@@ -41,7 +41,7 @@ export default new Router({
         {
           path: '/new',
           name: 'textEditor',
-          component: () => import('./views/TextEditor.vue'),
+          component: () => import('./views/QuillTextEditor.vue'),
         },
       ],
     },
