@@ -7,7 +7,9 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
+      :total-items="total"
       :items="posts"
+      @update:pagination="setDataTable"
     >
       <template v-slot:items="props">
         <tr @click="$router.push({ name: 'communityPost', params: { postId: props.item.id }})">
@@ -40,24 +42,34 @@ export default class CommunityBoard extends Vue {
     { text: '추천', align: 'center', sortable: false, value: 'like' },
   ];
 
+  total: number = 0;
   posts: IPost[] = [];
 
-  created() {
-    this.getPostList();
+  async setDataTable(data: {
+    descending: boolean,
+    page: number,
+    rowsPerPage: number,
+    sortBy: null,
+    totalItems: number,
+  }) {
+    const offset = data.page * data.rowsPerPage - data.rowsPerPage;
+    const limit = data.rowsPerPage;
+    await this.getPostList(offset, limit);
   }
 
-  getPostList() {
+  async getPostList(offset: number, limit: number) {
     axios.get(API.POST_LIST, {
       headers: {
         'x-access-token': getCookie('x-access-token'),
       },
       params: {
-        offset: 0,
-        limit: 10,
+        offset,
+        limit,
       },
     }).then((res) => {
-      const data = res.data.data;
-      this.posts = data;
+      const data = res.data;
+      this.total = data.total;
+      this.posts = data.data;
     });
   }
 
