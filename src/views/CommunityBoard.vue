@@ -7,15 +7,15 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="items"
+      :items="posts"
     >
       <template v-slot:items="props">
         <tr @click="$router.push({ name: 'communityPost', params: { postId: props.item.id }})">
           <td class="text-xs-center">{{ props.item.id }}</td>
           <td class="text-xs-left">{{ props.item.title }}</td>
-          <td class="text-xs-center">{{ props.item.createdBy }}</td>
-          <td class="text-xs-center">{{ props.item.createdAt }}</td>
-          <td class="text-xs-center">{{ props.item.like }}</td>
+          <td class="text-xs-center">{{ props.item.user.displayName }}</td>
+          <td class="text-xs-center">{{ setDateFormat(props.item.createdAt) }}</td>
+          <td class="text-xs-center">{{ props.item.likeCount }} / {{ props.item.dislikeCount }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -24,6 +24,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import axios from 'axios';
+import API from '@/service/api';
+import { getCookie } from '@/util';
+import { IPost } from '@/interfaces';
+import moment from 'moment';
 
 @Component
 export default class CommunityBoard extends Vue {
@@ -35,14 +40,29 @@ export default class CommunityBoard extends Vue {
     { text: '추천', align: 'center', sortable: false, value: 'like' },
   ];
 
-  items: object[] = [
-    {
-      id: 0,
-      title: 'test title',
-      createdBy: 'test user',
-      createdAt: '0000-00-00 00:00',
-      like: 0,
-    },
-  ];
+  posts: IPost[] = [];
+
+  created() {
+    this.getPostList();
+  }
+
+  getPostList() {
+    axios.get(API.POST_LIST, {
+      headers: {
+        'x-access-token': getCookie('x-access-token'),
+      },
+      params: {
+        offset: 0,
+        limit: 10,
+      },
+    }).then((res) => {
+      const data = res.data.data;
+      this.posts = data;
+    });
+  }
+
+  setDateFormat(date: string) {
+    return moment(date).format('YY-MM-DD HH:mm');
+  }
 }
 </script>

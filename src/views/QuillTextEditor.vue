@@ -35,8 +35,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import AxiosServie from '@/service/axios';
+import axios from 'axios';
 import API from '@/service/api';
+import { getCookie } from '@/util';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
@@ -60,10 +61,14 @@ export default class QuillTextEditor extends Vue {
   };
 
   createPost() {
-    AxiosServie.instance.post(API.POST_LIST, {
+    axios.post(API.POST_LIST, {
       title: this.title,
       contents: this.contents,
       userId: this.$store.getters.user.id,
+    }, {
+      headers: {
+        'x-access-token': getCookie('x-access-token'),
+      },
     }).then(() => {
       alert('새 글이 등록되었습니다.');
     }).finally(() => {

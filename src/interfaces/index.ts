@@ -9,8 +9,21 @@ export interface IUser {
 }
 
 export interface IChannelThumbnail {
-  id: string;
+  id: number;
   title: string;
   description: string;
   thumbnail: string;
+}
+
+export interface IPost {
+  id: number;
+  title: string;
+  contents: string;
+  likeCount: number;
+  dislikeCount: number;
+  createdAt: string;
+  updatedAt: string;
+  isValid: boolean;
+  userId: number;
+  user: IUser;
 }
