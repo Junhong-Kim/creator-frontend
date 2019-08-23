@@ -77,9 +77,3 @@ export default class QuillTextEditor extends Vue {
   }
 }
 </script>
-
-<style>
-.ql-editor {
-  height: 300px;
-}
-</style>

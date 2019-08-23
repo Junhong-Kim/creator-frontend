@@ -12,7 +12,7 @@
       @update:pagination="setDataTable"
     >
       <template v-slot:items="props">
-        <tr @click="$router.push({ name: 'communityPost', params: { postId: props.item.id }})">
+        <tr @click="$router.push({ name: 'communityPost', params: { postId: props.item.id }})" style="cursor: pointer;">
           <td class="text-xs-center">{{ props.item.id }}</td>
           <td class="text-xs-left">{{ props.item.title }}</td>
           <td class="text-xs-center">{{ props.item.user.displayName }}</td>
@@ -28,7 +28,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import API from '@/service/api';
-import { getCookie } from '@/util';
 import { IPost } from '@/interfaces';
 import moment from 'moment';
 
@@ -59,9 +58,6 @@ export default class CommunityBoard extends Vue {
 
   async getPostList(offset: number, limit: number) {
     axios.get(API.POST_LIST, {
-      headers: {
-        'x-access-token': getCookie('x-access-token'),
-      },
       params: {
         offset,
         limit,

@@ -3,4 +3,5 @@ export default {
   USER_ME: '/api/user/me',
   YOUTUBE_CHANNELS: '/api/youtube/channels',
   POST_LIST: '/api/posts',
+  POST_DETAIL: (postId: string) => `/api/posts/${postId}`,
 };
