@@ -40,20 +40,27 @@
         <v-layout row mt-2>
           <v-flex pa-1>
             <v-layout column align-center>
-              <v-icon small color="black">thumb_up</v-icon>
-              <span class="text-xs-center caption mt-1">{{ post.likeCount }}</span>
+              <v-icon
+                small
+                :color="likeIconColor"
+                @click="postList"
+                style="cursor: pointer;"
+              >
+                thumb_up
+              </v-icon>
+              <span class="text-xs-center caption mt-1">0</span>
             </v-layout>
           </v-flex>
           <v-flex pa-1>
             <v-layout column align-center>
-              <v-icon small color="black">comment</v-icon>
-              <span class="text-xs-center caption mt-1">{{ post.likeCount }}</span>
+              <v-icon small color="grey">comment</v-icon>
+              <span class="text-xs-center caption mt-1">0</span>
             </v-layout>
           </v-flex>
           <v-flex pa-1>
             <v-layout column align-center>
-              <v-icon small color="black">visibility</v-icon>
-              <span class="text-xs-center caption mt-1">{{ post.likeCount }}</span>
+              <v-icon small color="grey">visibility</v-icon>
+              <span class="text-xs-center caption mt-1">0</span>
             </v-layout>
           </v-flex>
         </v-layout>
@@ -102,7 +109,9 @@ export default class CommunityPost extends Vue {
     { text: '자유게시판', disabled: true },
   ];
   post: IPost | null = null;
-  postId: number | null = null;
+  postId: string | null = null;
+  isLike: boolean = false;
+  likeIconColor: string = 'grey';
   editorOption: object = {
     modules: {
       toolbar: false,
@@ -111,16 +120,26 @@ export default class CommunityPost extends Vue {
   };
 
   created() {
-    const postId = this.$route.params.postId;
-    this.getPostDetail(postId);
+    this.postId = this.$route.params.postId;
+    this.getPostDetail();
   }
 
-  getPostDetail(postId: string) {
-    axios.get(API.POST_DETAIL(postId))
+  getPostDetail() {
+    axios.get(API.POST_DETAIL(this.postId as string))
       .then((res) => {
         const data = res.data.data;
         this.post = data;
       });
+  }
+
+  postList() {
+    axios.put(API.POST_LIKE(this.postId as string), {
+      userId: this.$store.getters.user.id,
+    }).then((res) => {
+      const data = res.data.data;
+      this.isLike = data.isValid;
+      this.likeIconColor = data.isValid ? 'primary' : 'grey';
+    });
   }
 
   setDateFormat(date: string) {
