@@ -43,12 +43,12 @@
               <v-icon
                 small
                 :color="likeIconColor"
-                @click="postList"
+                @click="postLike(post)"
                 style="cursor: pointer;"
               >
                 thumb_up
               </v-icon>
-              <span class="text-xs-center caption mt-1">0</span>
+              <span class="text-xs-center caption mt-1">{{ post.likeCount }}</span>
             </v-layout>
           </v-flex>
           <v-flex pa-1>
@@ -132,11 +132,12 @@ export default class CommunityPost extends Vue {
       });
   }
 
-  postList() {
+  postLike(post: IPost) {
     axios.put(API.POST_LIKE(this.postId as string), {
       userId: this.$store.getters.user.id,
     }).then((res) => {
       const data = res.data.data;
+      post.likeCount += data.isValid ? 1 : -1;
       this.isLike = data.isValid;
       this.likeIconColor = data.isValid ? 'primary' : 'grey';
     });
