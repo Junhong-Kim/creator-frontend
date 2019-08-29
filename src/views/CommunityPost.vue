@@ -110,7 +110,6 @@ export default class CommunityPost extends Vue {
   ];
   post: IPost | null = null;
   postId: string | null = null;
-  isLike: boolean = false;
   likeIconColor: string = 'grey';
   editorOption: object = {
     modules: {
@@ -122,6 +121,7 @@ export default class CommunityPost extends Vue {
   created() {
     this.postId = this.$route.params.postId;
     this.getPostDetail();
+    this.getPostLike();
   }
 
   getPostDetail() {
@@ -132,13 +132,22 @@ export default class CommunityPost extends Vue {
       });
   }
 
+  getPostLike() {
+    axios.get(API.POST_LIKE(this.postId as string))
+      .then((res) => {
+        const data = res.data.data;
+        const isLike = data.some((item: { userId: number }) => {
+          return item.userId === this.$store.getters.user.id;
+        });
+        this.likeIconColor = isLike ? 'primary' : 'grey';
+      });
+  }
   postLike(post: IPost) {
     axios.put(API.POST_LIKE(this.postId as string), {
       userId: this.$store.getters.user.id,
     }).then((res) => {
       const data = res.data.data;
       post.likeCount += data.isValid ? 1 : -1;
-      this.isLike = data.isValid;
       this.likeIconColor = data.isValid ? 'primary' : 'grey';
     });
   }
