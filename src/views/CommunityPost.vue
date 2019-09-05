@@ -81,6 +81,15 @@
               <span v-text="setDateFormat(post.createdAt)" class="text-xs-right" style="font-size: 5px;"></span>
             </v-layout>
           </v-layout>
+          <v-text-field
+            v-model="newComment"
+            label="새로운 댓글"
+            hint="Enter Key로 새로운 댓글을 등록합니다."
+            box
+            append-icon="send"
+            @keyup.enter="createComment"
+            class="mt-3 body-1"
+          ></v-text-field>
         </div>
       </v-layout>
     </v-layout>
@@ -109,7 +118,7 @@ export default class CommunityPost extends Vue {
     { text: '자유게시판', disabled: true },
   ];
   post: IPost | null = null;
-  postId: string | null = null;
+  postId: string = '';
   likeIconColor: string = 'grey';
   editorOption: object = {
     modules: {
@@ -117,6 +126,7 @@ export default class CommunityPost extends Vue {
     },
     theme: 'bubble',
   };
+  newComment: string = '';
 
   created() {
     this.postId = this.$route.params.postId;
@@ -154,6 +164,21 @@ export default class CommunityPost extends Vue {
 
   setDateFormat(date: string) {
     return moment(date).format('YYYY-MM-DD HH:mm');
+  }
+
+  createComment() {
+    if (this.newComment === '') {
+      alert('내용을 입력해주세요.');
+    } else {
+      axios.post(API.POST_COMMENT_LIST(this.postId), {
+        contents: this.newComment,
+        userId: this.$store.getters.user.id,
+        postId: this.postId,
+      }).then(() => {
+        this.newComment = '';
+        alert('댓글이 등록되었습니다');
+      });
+    }
   }
 }
 </script>

@@ -5,4 +5,5 @@ export default {
   POST_LIST: '/api/posts',
   POST_DETAIL: (postId: string) => `/api/posts/${postId}`,
   POST_LIKE: (postId: string) => `/api/posts/${postId}/like`,
+  POST_COMMENT_LIST: (postId: string) => `/api/posts/${postId}/comments`,
 };
