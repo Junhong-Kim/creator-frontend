@@ -27,3 +27,13 @@ export interface IPost {
   userId: number;
   user: IUser;
 }
+
+export interface IComment {
+  id: number;
+  contents: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  postId: number;
+  user: IUser;
+}

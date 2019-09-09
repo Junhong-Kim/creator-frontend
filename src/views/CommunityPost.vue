@@ -66,19 +66,24 @@
         </v-layout>
         <!-- comments -->
         <div>
-          <v-layout row class="pa-2">
+          <v-layout
+            v-for="(comment, index) in comments"
+            row
+            class="pa-2"
+            :key="index"
+          >
             <v-avatar
               size="25"
               class="mr-2"
             >
-              <img :src="post.user.picture" alt="picture">
+              <img :src="comment.user.picture" alt="picture">
             </v-avatar>
             <v-layout column>
               <v-layout column text-xs-left grey lighten-4 pa-1 style="border-radius: 5px;">
-                <span class="font-weight-bold caption">{{ post.user.displayName}}</span>
-                <span class="caption" style="word-break: break-word;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+                <span class="font-weight-bold caption">{{ comment.user.displayName }}</span>
+                <span class="caption" style="word-break: break-word;">{{ comment.contents }}</span>
               </v-layout>
-              <span v-text="setDateFormat(post.createdAt)" class="text-xs-right" style="font-size: 5px;"></span>
+              <span v-text="setDateFormat(comment.createdAt)" class="text-xs-right" style="font-size: 5px;"></span>
             </v-layout>
           </v-layout>
           <v-text-field
@@ -100,7 +105,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
 import API from '@/service/api';
-import { IPost } from '@/interfaces';
+import { IPost, IComment } from '@/interfaces';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
@@ -126,12 +131,14 @@ export default class CommunityPost extends Vue {
     },
     theme: 'bubble',
   };
+  comments: IComment[] = [];
   newComment: string = '';
 
   created() {
     this.postId = this.$route.params.postId;
     this.getPostDetail();
     this.getPostLike();
+    this.getComments();
   }
 
   getPostDetail() {
@@ -164,6 +171,13 @@ export default class CommunityPost extends Vue {
 
   setDateFormat(date: string) {
     return moment(date).format('YYYY-MM-DD HH:mm');
+  }
+
+  getComments() {
+    axios.get(API.POST_COMMENT_LIST(this.postId))
+      .then((res) => {
+        this.comments = res.data.data;
+      });
   }
 
   createComment() {
